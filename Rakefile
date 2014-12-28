@@ -27,7 +27,7 @@ namespace :integration do
         "-p #{ssh_option[:port]}",
         "-i #{ssh_option[:keys].first}",
         "-l debug",
-        "lib/itamae/plugin/recipe/nownabe_centos7_init.rb"
+        "lib/itamae/plugin/recipe/nownabe_centos7_base.rb"
       ].join(" ")
 
       puts cmd

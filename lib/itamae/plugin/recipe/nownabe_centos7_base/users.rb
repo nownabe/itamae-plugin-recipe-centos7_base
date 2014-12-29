@@ -22,17 +22,8 @@ ALLOW_USERADD_OPTIONS = %w(
   end
   
   cmd << "#{user}"
-  
-  execute "add user #{user}" do
-    command cmd.join(" ")
-    not_if "id #{user}"
-    if opt["authorized_keys"].present? or
-       opt["authorized_keys_file"].present? and File.exist?(opt["authorized_keys_file"])
 
-      notifies :create, "file[make authorized_keys]"
-    end
-  end
- 
+  # home directory
   home_dir = if opt["home-dir"].present?
     opt["home-dir"]
   elsif opt["base-dir"].present?
@@ -41,17 +32,32 @@ ALLOW_USERADD_OPTIONS = %w(
     "/home/#{user}"
   end
 
+  authorized_keys_file = "#{home_dir}/.ssh/authorized_keys"
+
+  execute "add user #{user}" do
+    command cmd.join(" ")
+    not_if "id #{user}"
+    if opt["authorized_keys"].present? or
+       ( opt["authorized_keys_file"].present? and 
+         File.exist?(File.expand_path(opt["authorized_keys_file"])) )
+
+      notifies :create, "directory[#{home_dir}/.ssh]"
+      notifies :create, "file[#{authorized_keys_file}]"
+    end
+  end
+ 
   directory "#{home_dir}/.ssh" do
     owner user
     group opt["gid"] || user
     mode "0700"
+    action :nothing
   end
-
-  file "#{home_dir}/.ssh/authorized_keys" do
+ 
+  file authorized_keys_file do
     if opt["authorized_keys"].present?
       content opt["authorized_keys"]
     else
-      content_file opt["authorized_keys_file"]
+      content_file File.expand_path(opt["authorized_keys_file"])
     end
     owner user
     group opt["gid"] || user

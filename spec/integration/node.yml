@@ -5,3 +5,5 @@ base:
       groups: "wheel"
       password: "$6$rj297KGn$59CQ5L9xGj4d5yyo6.rlAbOocGAHWALx6yChm71v6S6QhgXxCsNy4EuxsNmb1Xeijf3ck1kxSjF8dKNlEc4h4."
 
+  mailto:
+    root: hogehoge@foobar.com

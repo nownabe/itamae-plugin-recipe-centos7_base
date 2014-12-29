@@ -56,6 +56,7 @@ ALLOW_USERADD_OPTIONS = %w(
     owner user
     group opt["gid"] || user
     mode "0600"
+    action :nothing
   end
 
 end

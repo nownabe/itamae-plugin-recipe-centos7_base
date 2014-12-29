@@ -5,7 +5,7 @@ require "net/ssh"
 require "io/console"
 require "unix_crypt"
 
-VAGRANT_HOSTNAME = "centos7_init-spec-centos7"
+VAGRANT_HOSTNAME = "centos7_base-spec-centos7"
 
 desc "Run provisining vagrant and serverspec tests"
 task integration: ["integration:provision", "integration:spec"]

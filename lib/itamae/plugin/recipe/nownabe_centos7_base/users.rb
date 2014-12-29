@@ -33,10 +33,9 @@ ALLOW_USERADD_OPTIONS = %w(
   end
 
   authorized_keys_file = "#{home_dir}/.ssh/authorized_keys"
-  does_put_authorized_keys = opt["authorized_keys"].present? or
-                             ( opt["authorized_keys_file"].present? and 
-                               File.exist?(File.expand_path(opt["authorized_keys_file"])) )
-
+  does_put_authorized_keys = opt["authorized_keys"].present?
+  does_put_authorized_keys ||= ( opt["authorized_keys_file"].present? and 
+                                 File.exist?(File.expand_path(opt["authorized_keys_file"])) )
 
   execute "add user #{user}" do
     command cmd.join(" ")

@@ -2,8 +2,7 @@ require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "tempfile"
 require "net/ssh"
-require "io/console"
-require "unix_crypt"
+require "itamae/nownabe_centos7_base_tasks"
 
 VAGRANT_HOSTNAME = "centos7_base-spec-centos7"
 
@@ -49,15 +48,3 @@ namespace :integration do
   end
 end
 
-
-SALT_CHARSET = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-
-desc "Make password hash (SHA-512)"
-task :mkpasswd do
-  print "password: "
-  pass = STDIN.noecho(&:gets).chomp
-  puts
-
-  salt = (0..7).inject(""){ |s,i| s << SALT_CHARSET[rand(64)] }
-  puts UnixCrypt::SHA512.build(pass, salt)
-end

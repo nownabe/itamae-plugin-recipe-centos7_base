@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "itamae", "~> 1.1.1"
+  spec.add_dependency "itamae", ">= 1.1.20"
   spec.add_dependency "activesupport"
   spec.add_dependency "unix-crypt"
 

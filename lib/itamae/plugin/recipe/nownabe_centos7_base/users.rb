@@ -42,7 +42,6 @@ ALLOW_USERADD_OPTIONS = %w(
     not_if "id #{user}"
     if does_put_authorized_keys 
       notifies :create, "directory[#{home_dir}/.ssh]"
-      notifies :create, "file[#{authorized_keys_file}]"
     end
   end
  
@@ -53,18 +52,25 @@ ALLOW_USERADD_OPTIONS = %w(
       mode "0700"
       action :nothing
     end
- 
-    file authorized_keys_file do
-      if opt["authorized_keys"].present?
+
+    if opt["authorized_keys"].present?
+      file authorized_keys_file do
         content opt["authorized_keys"]
-      else
-        content_file File.expand_path(opt["authorized_keys_file"])
+        owner user
+        group opt["gid"] || user
+        mode "0600"
+        action :nothing
+        subscribes :create, "execute[add user #{user}]"
       end
-      owner user
-      group opt["gid"] || user
-      mode "0600"
-      action :nothing
+    else
+      remote_file authorized_keys_file do
+        source File.expand_path(opt["authorized_keys_file"])
+        owner user
+        group opt["gid"] || user
+        mode "0600"
+        action :nothing
+        subscribes :create, "execute[add user #{user}]"
+      end
     end
   end
-
 end

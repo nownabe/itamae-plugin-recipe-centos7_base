@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "itamae", "~> 1.1.1"
+  spec.add_dependency "itamae-plugin-resource-ssh_key"
   spec.add_dependency "activesupport"
 
   spec.add_development_dependency "bundler", "~> 1.7"
@@ -25,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "serverspec", "~> 2.7.1"
   spec.add_development_dependency "unix-crypt"
+  spec.add_development_dependency "webmock"
 end

@@ -30,7 +30,7 @@ namespace :integration do
         "-i #{ssh_option[:keys].first}",
         "-l debug",
         "--node-yaml spec/integration/node.yml",
-        "lib/itamae/plugin/recipe/nownabe_centos7_base.rb"
+        "spec/integration/recipe.rb"
       ]
 
       cmd << "--dry-run" if ENV["DRY_RUN"]

@@ -1,5 +1,6 @@
 require 'active_support/core_ext/object/blank'
 require 'shellwords'
+require "itamae/plugin/resource/ssh_key"
 
 ALLOW_USERADD_OPTIONS = %w(
   base-dir home-dir defaults inactive gid
@@ -9,7 +10,10 @@ ALLOW_USERADD_OPTIONS = %w(
   selinux-user
 )
 
-( (node[:base] || {})[:users] || {}).each do |user, opt|
+node[:base] ||= {}
+node[:base][:user] ||= {}
+
+node[:base][:users].each do |user, opt|
   
   # useradd command
   cmd = ["useradd"]
@@ -23,48 +27,19 @@ ALLOW_USERADD_OPTIONS = %w(
   
   cmd << "#{user}"
 
-  # home directory
-  home_dir = if opt["home-dir"].present?
-    opt["home-dir"]
-  elsif opt["base-dir"].present?
-    "#{opt["base-dir"]}/#{user}"
-  else
-    "/home/#{user}"
-  end
-
-  authorized_keys_file = "#{home_dir}/.ssh/authorized_keys"
-  does_put_authorized_keys = opt["authorized_keys"].present?
-  does_put_authorized_keys ||= ( opt["authorized_keys_file"].present? and 
-                                 File.exist?(File.expand_path(opt["authorized_keys_file"])) )
-
   execute "add user #{user}" do
     command cmd.join(" ")
     not_if "id #{user}"
-    if does_put_authorized_keys 
-      notifies :create, "directory[#{home_dir}/.ssh]"
-      notifies :create, "file[#{authorized_keys_file}]"
-    end
   end
  
-  if does_put_authorized_keys
-    directory "#{home_dir}/.ssh" do
-      owner user
-      group opt["gid"] || user
-      mode "0700"
-      action :nothing
-    end
- 
-    file authorized_keys_file do
-      if opt["authorized_keys"].present?
-        content opt["authorized_keys"]
-      else
-        content_file File.expand_path(opt["authorized_keys_file"])
-      end
-      owner user
-      group opt["gid"] || user
-      mode "0600"
-      action :nothing
-    end
-  end
+  if opt.has_key?("github_user") ||
+    opt.has_key?("key_file") ||
+    opt.has_key?("ssh_keys")
 
+    ssh_key user do
+      github_user opt[:github_user]
+      key_file opt[:key_file]
+      ssh_keys opt[:ssh_keys]
+    end
+  end
 end

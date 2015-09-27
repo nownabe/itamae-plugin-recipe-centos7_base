@@ -18,10 +18,19 @@ end
 namespace :itamae do
   desc "Make password hash (SHA-512)"
   task :mkpasswd do
-    print "password: "
-    pass = STDIN.noecho(&:gets).chomp
+    print "Enter your password: "
+    password = STDIN.noecho(&:gets).chomp
     puts
 
-    puts UnixCrypt::SHA512.build(pass, Itamae::Centos7Base.salt)
+    print "Confirm your password: "
+    confirmation = STDIN.noecho(&:gets).chomp
+    puts
+
+    if password != confirmation
+      puts "Error! Not match"
+      abort
+    end
+
+    puts UnixCrypt::SHA512.build(password, Itamae::Centos7Base.salt)
   end
 end

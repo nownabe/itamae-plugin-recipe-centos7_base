@@ -2,7 +2,7 @@ require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "tempfile"
 require "net/ssh"
-require "itamae/nownabe_centos7_base_tasks"
+require "itamae/centos7_base_tasks"
 
 VAGRANT_HOSTNAME = "centos7_base-spec-centos7"
 

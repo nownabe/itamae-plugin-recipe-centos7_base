@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'itamae/plugin/recipe/nownabe_centos7_base/version'
+require 'itamae/plugin/recipe/centos7_base/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "itamae-plugin-recipe-nownabe_centos7_base"
-  spec.version       = Itamae::Plugin::Recipe::NownabeCentos7Base::VERSION
+  spec.name          = "itamae-plugin-recipe-centos7_base"
+  spec.version       = Itamae::Plugin::Recipe::Centos7Base::VERSION
   spec.authors       = ["nownabe"]
   spec.email         = ["nownabe@gmail.com"]
   spec.summary       = %q{An Itamae plugin: CentOS 7 base}

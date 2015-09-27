@@ -7,7 +7,7 @@ require "itamae/centos7_base_tasks"
 VAGRANT_HOSTNAME = "centos7_base-spec-centos7"
 
 desc "Run provisining vagrant and serverspec tests"
-task integration: ["integration:provision", "integration:spec"]
+task integration: ["integration:provision", "integration:spec", "integration:destroy"]
 
 namespace :integration do
   desc "Provision Vagrant"
@@ -45,6 +45,12 @@ namespace :integration do
     ENV["TARGET_HOST"] = VAGRANT_HOSTNAME
     t.ruby_opts = "-I ./spec/integration"
     t.pattern = "spec/integration/*_spec.rb"
+  end
+
+  desc "Destroy virtual machine"
+  task :destroy do
+    env = {"VAGRANT_CWD" => File.expand_path("./spec/integration")}
+    system(env, "vagrant destroy -f")
   end
 end
 

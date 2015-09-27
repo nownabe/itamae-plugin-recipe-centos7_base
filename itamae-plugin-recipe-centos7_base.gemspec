@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Itamae::Plugin::Recipe::Centos7Base::VERSION
   spec.authors       = ["nownabe"]
   spec.email         = ["nownabe@gmail.com"]
-  spec.summary       = %q{An Itamae plugin: CentOS 7 base}
-  spec.homepage      = ""
+  spec.summary       = %q{Itamae plugin recipes for CentOS 7}
+  spec.homepage      = "https://github.com/nownabe/itamae-plugin-recipe-centos7_base"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

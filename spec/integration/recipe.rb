@@ -1,5 +1,6 @@
 require "webmock"
 Object.send(:include, WebMock::API)
+WebMock.enable!
 
 keys_file = File.expand_path("../keys", __FILE__)
 keys = File.read(keys_file)

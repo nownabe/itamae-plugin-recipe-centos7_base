@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "itamae", ">= 1.1.20"
   spec.add_dependency "activesupport"
   spec.add_dependency "unix-crypt"
-  spec.add_dependency "itamae-plugin-resource-ssh_key"
+  spec.add_dependency "itamae-plugin-resource-authorized_keys", "~> 0.1.0"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"

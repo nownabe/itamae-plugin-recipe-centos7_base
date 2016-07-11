@@ -1,3 +1,8 @@
+execute "update yum" do
+  command "yum update -y yum"
+  not_if "rpm -q yum-cron"
+end
+
 package "yum-cron"
 
 service "yum-cron" do
